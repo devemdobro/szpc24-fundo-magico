@@ -1,21 +1,21 @@
 @media (max-width: 768px) {
-    .header h1{
-        font-size: 32px;
-    }
+	.header h1 {
+		font-size: 32px;
+	}
 
-    .header .subtitle {
-        font-size: 16px;
-    }
+	.subtitle {
+		font-size: 16px;
+	}
 
-    .card-header{
-        font-size: 16px;
-    }
+	.card-header {
+		font-size: 16px;
+	}
 
-    .code-grid {
-        flex-direction: column;
-    }
+	.code-grid {
+		flex-direction: column;
+	}
 
-    .code-card{
-        width: 100%;
-    }
+	.code-card {
+		width: 100%;
+	}
 }

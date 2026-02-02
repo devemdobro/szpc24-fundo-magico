@@ -1,79 +1,98 @@
 document.addEventListener("DOMContentLoaded", function () {
 	// Objetivo:
-	// Enviar um texto de um formulário para uma API do n8n e exibir o resultado do código html, css e colocar a animação no fundo da tela do site.
+	// Enviar um texto de um formulário para uma API do n8n e exibir o resultado o código html, css e colocar a animação no fundo da tela do site.
+
 	// Passos:
 	// 1. No JavaScript, pegar o evento de submit do formulário para evitar o recarregamento da página.
-	const formulario = document.querySelector(".form-group");
-	const descricaoInput = document.getElementById("description");
-	const codigoHtml = document.getElementById("html-code");
-	const codigoCss = document.getElementById("css-code");
-	const secaoPreview = document.getElementById("preview-section");
 
-	formulario.addEventListener("submit", async function (evento) {
-		evento.preventDefault(); // Evita o recarregamento da página
+	const form = document.querySelector(".form-group");
+	const input = document.getElementById("description");
+	const htmlCode = document.getElementById("html-code");
+	const cssCode = document.getElementById("css-code");
+	const preview = document.getElementById("preview-section");
+
+	form.addEventListener("submit", async function (event) {
+		event.preventDefault();
 
 		// 2. Obter o valor digitado pelo usuário no campo de texto.
-		const descricao = descricaoInput.value.trim();
 
-		if (!descricao) {
+		const description = input.value.trim();
+
+		if (!description) {
 			return;
 		}
 
-		// 3. Exibir um indicador de carregamento enquanto a requisição está sendo processada.
-		mostrarCarregamento(true);
+		setLoading(true);
 
-		// 4. Fazer uma requisição HTTP (POST) para a API do n8n, enviando o texto do formulário no corpo da requisição em formato JSON.
 		try {
-			const resposta = await fetch("https://n8n.srv830193.hstgr.cloud/webhook/4096b767-f3fb-4244-bb3c-2df7994c2262", {
+			// 4. Fazer uma requisição HTTP (POST) para a API do n8n, enviando o texto do formulário no corpo da requisição em formato JSON.
+			const response = await fetch("https://n8n.srv830193.hstgr.cloud/webhook/4096b767-f3fb-4244-bb3c-2df7994c2262", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ descricao }),
+				body: JSON.stringify({ description }),
 			});
 
-			const dados = await resposta.json();
+			// 5. Receber a resposta da API do n8n (esperando um JSON com o código HTML/CSS do background).
+			// Converte a resposta da API em um objeto JSON
+			const data = await response.json();
 
-			codigoHtml.textContent = dados.html || "";
-			codigoCss.textContent = dados.css || "";
+			// 6. Se a resposta for válida, exibir o código HTML/CSS retornado na tela:
+			//    - Mostrar o HTML e o CSS gerado em uma área de preview.
+			//    - Inserir o CSS retornado dinamicamente na página para aplicar o background.
+			// Exibe o código HTML gerado no elemento de texto (código-fonte)
+			htmlCode.textContent = data.code || "";
 
-			secaoPreview.style.display = "block";
-			secaoPreview.innerHTML = dados.html || "";
+			// Exibe o código CSS gerado no elemento de texto (código-fonte)
+			cssCode.textContent = data.style || "";
 
-			let tagEstilo = document.getElementById("estilo-dinamico");
-			//se essa tag já existir, remover ela antes de criar uma nova
-			if (tagEstilo) {
-				tagEstilo.remove();
+			// Mostra a seção de preview tornando-a visível
+			preview.style.display = "block";
+
+			// Insere o código HTML gerado no preview para visualização imediata
+			preview.innerHTML = data.code || "";
+
+			// Tenta obter uma tag <style> existente com id "dynamic-style"
+			let styleTag = document.getElementById("dynamic-style");
+
+			// Se uma tag de estilo anterior existir, remove-a para evitar duplicação
+			if (styleTag) {
+				styleTag.remove();
 			}
 
-			if (dados.css) {
-				tagEstilo = document.createElement("style");
-				tagEstilo.id = "estilo-dinamico";
-				tagEstilo.textContent = dados.css;
-				document.head.appendChild(tagEstilo);
+			// Se o CSS foi retornado pela API, cria e injeta um novo <style> no documento
+			if (data.style) {
+				// Cria uma nova tag <style>
+				styleTag = document.createElement("style");
+
+				// Define um id único para identificar a tag mais tarde
+				styleTag.id = "dynamic-style";
+
+				// Insere o CSS retornado pela API no conteúdo da tag
+				styleTag.textContent = data.style;
+
+				// Adiciona a tag <style> no head do documento para aplicar os estilos
+				document.head.appendChild(styleTag);
 			}
 		} catch (error) {
-			console.error("Erro ao enviar a requisição:", error);
-			codigoHtml.textContent = "Não consegui gerar o HTML, tente novamente.";
-			codigoCss.textContent = "Não consegui gerar o CSS, tente novamente.";
-			secaoPreview.innerHTML = "";
+			console.error("Erro ao gerar o fundo mágico:", error);
+			htmlCode.textContent = "Não consegui gerar o HTML. Tente novamente.";
+			cssCode.textContent = "Não consegui gerar o CSS. Tente novamente.";
+			preview.innerHTML = "";
 		} finally {
-			mostrarCarregamento(false);
+			setLoading(false);
 		}
 	});
 
-	function mostrarCarregamento(estaCarregando) {
-		const botaoEnviar = document.getElementById("generate-btn");
-		if (estaCarregando) {
-			botaoEnviar.textContent = "Carregando Background...";
+	// 3. Exibir um indicador de carregamento enquanto a requisição está sendo processada.
+	function setLoading(isLoading) {
+		const button = document.getElementById("btn-text");
+
+		if (isLoading) {
+			button.innerHTML = "Gerando Background...";
 		} else {
-			botaoEnviar.textContent = "Gerar Background Mágico";
+			button.innerHTML = "Gerar Background Mágico";
 		}
 	}
-
-	// 5. Receber a resposta da API do n8n (esperando um JSON com o código HTML/CSS do background).
-	// 6. Se a resposta for válida, exibir o código HTML/CSS retornado na tela:
-	//    - Mostrar o HTML e CSS gerado em uma área de preview.
-	//    - Inserir o CSS retornado dinamicamente na página para aplicar o background.
-	// 7. Remover o indicador de carregamento após o recebimento da resposta.
 });
