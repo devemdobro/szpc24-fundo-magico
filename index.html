@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Semana do Zero ao Programador Contratado - Fundo Mágico</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./src/css/reset.css">
+    <link rel="stylesheet" href="./src/css/estilos.css">
+    <link rel="stylesheet" href="./src/css/responsivo.css">
+  </head>
+  <body>
+    <header class="header">
+      <h1>Fundo Mágico</h1>
+      <p class="subtitle">
+        Transforme suas ideias em backgrounds incríveis com o poder da IA.
+        Descreva o que você imagina e veja a magia acontecer.
+      </p>
+    </header>
+
+    <main class="container">
+      <section class="card main">
+        <h2 class="card-header">Descreva o background que você deseja</h2>
+
+        <form class="form-group">
+          <textarea
+            rows="5"
+            id="description"
+            placeholder="Ex: Um gradiente azul suave que vai de azul claro ao azul escuro"
+          ></textarea>
+          <button id="generate-btn" class="btn-magic">
+            <span id="btn-text">Gerar Background Mágico</span>
+          </button>
+        </form>
+      </section>
+
+      <section id="preview-section" class="preview-card"></section>
+
+      <section id="code-output" class="code-grid">
+        <div class="card code-card">
+          <h3 class="code-title">Código HTML</h3>
+
+          <pre id="html-code" class="code-block"></pre>
+        </div>
+
+        <div class="card code-card">
+          <h3 class="code-title">Código CSS</h3>
+
+          <pre id="css-code" class="code-block"></pre>
+        </div>
+      </section>
+    </main>
+
+    <script src="./src/js/index.js"></script>
+
+  </body>
+</html>

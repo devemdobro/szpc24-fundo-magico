@@ -1,0 +1,113 @@
+body {
+    background-color: #0f131a;
+    color: #ffffff;
+    background: url(../images/bg.JPG);
+    font-family: "Roboto Mono", monospace;
+    line-height: 1.4;
+    padding: 32px 24px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.header h1{
+    margin-bottom: 16px;
+    font-size: 48px;
+}
+
+.header .subtitle {
+    font-size: 19.2px;
+    color: #ffffffcc;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.container{
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
+.card{
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 32px;
+}
+
+.card-header{
+    text-align: center;
+    margin-bottom: 32px;
+    font-size: 20.8px;
+}
+
+.form-group textarea{
+    background-color: rgba(255,255,255,0.05);
+    color: #ffffff;
+    width: 100%;
+    min-height: 120px;
+    border: 1px solid #474646;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    padding: 16px;
+}
+
+.form-group textarea:focus{
+    outline: none;
+    border-color: #a655f7;
+}
+
+.form-group textarea::placeholder{
+    color: #a19e9e;
+}
+
+.form-group .btn-magic{
+    width: 100%;
+    padding: 16px 32px;
+    background: linear-gradient(90deg, #a655f7 0%, #ff80aa 100%);
+    color: #ffffff;
+    font-size: 17.6px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-group .btn-magic:hover{
+    transform: translateY(-2px)
+}
+
+.preview-card{
+    display: none;
+}
+
+.code-grid{
+    display: flex;
+    gap: 24px
+}
+
+.code-card{
+    background-color: #21242a;
+    border: 1px solid #ffffff33;
+    padding: 24px;
+    width: 50%;
+}
+
+.code-title{
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+
+.code-block{
+    background-color: #0a0c10;
+    color: #5eead4;
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 14px;
+
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
